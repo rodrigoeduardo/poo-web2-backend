@@ -1,9 +1,6 @@
 package br.ufrn.imd.PooWeb2.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -19,5 +16,7 @@ public class Usuario {
 
     private String senha;
 
-//    private Papel papel;
+    @ManyToOne
+    @JoinColumn(name = "papelId")
+    private Papel papel;
 }
