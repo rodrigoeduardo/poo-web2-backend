@@ -1,6 +1,8 @@
 package br.ufrn.imd.PooWeb2.controller;
 
 import br.ufrn.imd.PooWeb2.model.Estoque;
+import br.ufrn.imd.PooWeb2.model.Produto;
+import br.ufrn.imd.PooWeb2.model.dto.ProdutoRequest;
 import br.ufrn.imd.PooWeb2.service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,5 +55,23 @@ public class EstoqueController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @PostMapping("/{estoqueId}/adicionar-produto")
+    public ResponseEntity<Estoque> adicionarProduto(@PathVariable Long estoqueId,
+                                                    @RequestBody ProdutoRequest produtoRequest) {
+        Produto produto = new Produto();
+        produto.setId(produtoRequest.getProdutoId());
+        Estoque estoqueAtualizado = estoqueService.adicionarProduto(estoqueId, produto, produtoRequest.getQuantidade());
+        return ResponseEntity.status(HttpStatus.OK).body(estoqueAtualizado);
+    }
+
+    @PostMapping("/{estoqueId}/remover-produto")
+    public ResponseEntity<Estoque> removerProduto(@PathVariable Long estoqueId,
+                                                  @RequestBody ProdutoRequest produtoRequest) {
+        Produto produto = new Produto();
+        produto.setId(produtoRequest.getProdutoId());
+        Estoque estoqueAtualizado = estoqueService.removerProduto(estoqueId, produto, produtoRequest.getQuantidade());
+        return ResponseEntity.status(HttpStatus.OK).body(estoqueAtualizado);
     }
 }
